@@ -1,49 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-
-function InputTodo({ onComplete }) {
-  const [todo, setTodo] = useState('')
-
-  const handleAddTodo = () => {
-    onComplete && onComplete(todo)
-    setTodo('')
-  }
-
-  return (
-    <div>
-      <input type="text" value={todo} onChange={event => setTodo(event.target.value)} />
-      <button onClick={handleAddTodo}>Add Todo</button>
-    </div>
-  )
-}
-
-function Todo() {
-  const [todos, setTodos] = useState([])
-  const [state, setState] = useState('')
-  const handleAddTodo = (todo) => {
-    setTodos([...todos, todo])
-  }
-
-  const renderTodo = (t, tIndex) => (
-    <div
-      key={tIndex}
-      style={{ backgroundColor: 'gray' }}>
-      {t}
-    </div>
-  )
-
-  return (
-    <div style={{ padding: 30, backgroundColor: 'gray' }}>
-      <InputTodo onComplete={handleAddTodo} />
-      { todos.map(renderTodo) }
-    </div>
-  )
-}
+import UserForm from '../components/user/UserForm';
+import UsersTable from '../components/user/UsersTable';
 
 function App() {
+  const [refresh, setRefresh] = useState(false)
+
+  const handleRefresh = () => {
+    setRefresh(!refresh)
+  }
+
   return (
     <div className="App">
-      <Todo />
+      <UsersTable refresh={refresh} />
+      <UserForm onCreate={handleRefresh} />
     </div>
   );
 }
